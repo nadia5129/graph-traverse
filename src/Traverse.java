@@ -28,6 +28,58 @@ public class Traverse {
     v45.neighbors = new ArrayList<>(List.of(v23));
     v23.neighbors = new ArrayList<>(List.of());
     v67.neighbors = new ArrayList<>(List.of(v91));
+    
+    printVertices(v7);
+    System.out.println(sum(v7));
+  }
+
+  public static void printVertices(Vertex<?> current){
+    Set<Vertex<?>> visited = new HashSet<>();
+    //this is not recuresion because the bottom method does the recursion 
+    //this is created once
+    printVertices(current,visited);
+  }
+
+  // ? any vertex of that type dont need <> after static/ wild card = ?
+  // T is not special it can be an variable name like E
+  //  public static <E> void printVertices(Vertex<E> current){
+  //this one does the recursion
+
+  public static void printVertices(Vertex<?> current,Set<Vertex<?>> visited){
+    if(current == null) return;
+    if(visited.contains(current)) return;
+    visited.add(current);
+
+    System.out.println(current.data);
+
+    //recurse over all the childern
+    for( Vertex<?> neighbor : current.neighbors){
+      printVertices(neighbor, visited);
+    }
+
+  }
+
+  //method 
+  public static int sum(Vertex<Integer> current){
+    Set<Vertex<Integer>> visited = new HashSet<>();
+    return sum(current, visited);
+  }
+
+  //second method
+  private static int sum(Vertex<Integer> current, Set<Vertex<Integer>> visited){
+    if(current == null || visited.contains(current)) return 0;
+    visited.add(current);
+
+    int total =0;
+    total += current.data;
+
+    //can use var in newer java , java knows what data type it is
+    for( var neighbor : current.neighbors){
+      total += sum(neighbor, visited);
+      
+    }
+     return total;
+
   }
 
 }
